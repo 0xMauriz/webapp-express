@@ -8,21 +8,17 @@ function index(req, res) {
         if (err) return res.status(500).json({ error: 'Database query failed' });
         res.json(results);
     })
-
-    return sql;
 }
 
 function show(req, res) {
 
     const { title, abstract } = req.params
 
-    const sqlShow = 'SELECT `movies`.`title`,`movies`.`abstract` FROM `movies` WHERE title = ?';
+    const sqlShow = 'SELECT `movies`.`title`,`reviews`.`text` FROM `movies`, `reviews` WHERE title = ?';
     connection.query(sqlShow, [title, abstract], (err, results) => {
         if (err) return res.status(500).json({ error: "Database query failed frfr" });
         if (results.length === 0) return res.status(404).json({ error: "Movies not found" });
         res.json(results[0]);
-
-        return sqlShow;
     })
 }
 
