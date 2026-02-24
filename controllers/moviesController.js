@@ -17,7 +17,7 @@ function show(req, res) {
     const sqlShow = 'SELECT `movies`.`title`,`reviews`.`text` FROM `reviews` INNER JOIN `movies` ON `movies`.`id` = `reviews`.`movie_id` WHERE title = ?';
 
     connection.query(sqlShow, [title], (err, results) => {
-        if (err) return res.status(500).json({ error: "Database query failed frfr" });
+        if (err) return res.status(500).json({ error: "Database query failed" });
         if (results.length === 0) return res.status(404).json({ error: "Movies not found" });
         res.json(results[0]);
     })
