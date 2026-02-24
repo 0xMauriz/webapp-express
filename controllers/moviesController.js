@@ -15,11 +15,13 @@ function show(req, res) {
     const { title } = req.params
 
     const sqlShow = 'SELECT `movies`.`title`,`reviews`.`text` FROM `reviews` INNER JOIN `movies` ON `movies`.`id` = `reviews`.`movie_id` WHERE title = ?';
+
     connection.query(sqlShow, [title], (err, results) => {
         if (err) return res.status(500).json({ error: "Database query failed frfr" });
         if (results.length === 0) return res.status(404).json({ error: "Movies not found" });
-        res.json(results);
+        res.json(results[0]);
     })
+
 }
 
 function store(req, res) {
@@ -78,9 +80,8 @@ function destroy(req, res) {
     const { title } = req.params
 
     const sqlDestroy = 'DELETE FROM `movies` WHERE title = ?';
-    const sqlDestroy1 = 'DELETE FROM `movies` WHERE title = ?';
 
-    connection.query(sqlDestroy, sqlDestroy1, [title], (err, results) => {
+    connection.query(sqlDestroy, [title], (err, results) => {
         if (err) return res.status(500).json({ error: 'Database query failed' });
         res.json(results);
     })
